@@ -2,5 +2,5 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="XamarinForms1.Views.MainPage">
-    <Label Text="Welkom" HorizontalOptions="Center" VerticalOptions="Center" />
+    <Label Text="{Binding DeviceToken, Mode=OneWay}" HorizontalOptions="Center" VerticalOptions="Center" />
 </ContentPage>
