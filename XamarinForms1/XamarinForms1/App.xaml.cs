@@ -4,15 +4,20 @@ using Xamarin.Forms;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using XamarinForms1.ViewModels;
 
 namespace XamarinForms1
 {
 	public partial class App : Application
 	{
+	    public const string NotificationKey = "PNKey";
 
 		public App ()
 		{
 			InitializeComponent();
+
+            DependencyService.Register<MainViewModel>();
+
             MainPage = new MainPage();
         }
 
