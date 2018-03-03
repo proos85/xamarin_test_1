@@ -2,5 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="XamarinForms1.Views.MainPage">
-    <Label Text="{Binding DeviceToken, Mode=OneWay}" HorizontalOptions="Center" VerticalOptions="Center" />
+    
+    <StackLayout VerticalOptions="Center" HeightRequest="200">
+        
+        <Label Text="{Binding DeviceToken, Mode=OneWay}" VerticalOptions="Start" />
+        <Label Text="{Binding NotificationMessage, Mode=OneWay}" HorizontalOptions="Center" VerticalOptions="EndAndExpand" />
+
+    </StackLayout>
+
 </ContentPage>

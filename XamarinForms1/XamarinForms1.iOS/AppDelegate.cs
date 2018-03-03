@@ -18,6 +18,8 @@ namespace XamarinForms1.iOS
     // ReSharper disable once UnusedMember.Global
     public partial class AppDelegate : Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
+        private NSDictionary _launchOptions;
+
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
@@ -27,15 +29,30 @@ namespace XamarinForms1.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Forms.Init();
+            LoadApplication(new App());
+
             Task.Run(async () =>
             {
                 await RequestPushNotificationAuthorizationFromUser();
             });
-            
-            Forms.Init();
-            LoadApplication(new App());
+
+            _launchOptions = options;
 
             return base.FinishedLaunching(app, options);
+        }
+
+        public override void OnActivated(UIApplication uiApplication)
+        {
+            if (_launchOptions != null && _launchOptions.ContainsKey(UIApplication.LaunchOptionsRemoteNotificationKey))
+            {
+                if (_launchOptions[UIApplication.LaunchOptionsRemoteNotificationKey] is NSDictionary notification)
+                {
+                    PresentNotification(notification);
+                }
+
+                _launchOptions = null;
+            }
         }
 
         private static async Task RequestPushNotificationAuthorizationFromUser()
@@ -96,6 +113,13 @@ namespace XamarinForms1.iOS
             NSDictionary userInfo, 
             Action<UIBackgroundFetchResult> completionHandler)
         {
+            PresentNotification(userInfo);
+
+            completionHandler(UIBackgroundFetchResult.NoData);
+        }
+
+        private void PresentNotification(NSDictionary userInfo)
+        {
             if (userInfo.ObjectForKey(new NSString("aps")) is NSDictionary aps)
             {
                 var msg = string.Empty;
@@ -108,9 +132,9 @@ namespace XamarinForms1.iOS
                 {
                     msg = "Unable to parse";
                 }
-            }
 
-            completionHandler(UIBackgroundFetchResult.NoData);
+                MessagingCenter.Send<object, string>(this, App.MessageReceived, msg);
+            }
         }
 
         private async Task SendRegistrationTokenToServer(NSData deviceToken)

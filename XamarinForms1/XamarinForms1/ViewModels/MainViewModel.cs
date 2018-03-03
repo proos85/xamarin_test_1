@@ -1,5 +1,4 @@
-﻿using System.Windows.Input;
-using Plugin.Settings;
+﻿using Plugin.Settings;
 using Xamarin.Forms;
 
 namespace XamarinForms1.ViewModels
@@ -11,10 +10,14 @@ namespace XamarinForms1.ViewModels
         {
             DeviceToken = CrossSettings.Current.GetValueOrDefault("DeviceToken", string.Empty);
 
-            UpdateDeviceTokenCommand = new Command<string>(UpdateDeviceTokenCommandAction);
-            MessagingCenter.Subscribe<object, string>(this, App.NotificationKey, (sender, msg) =>
+            MessagingCenter.Subscribe<object, string>(this, App.NotificationKey, (sender, deviceToken) =>
             {
-                UpdateDeviceTokenCommand.Execute(msg);
+                DeviceToken = $"Device Token: {deviceToken}";
+            });
+
+            MessagingCenter.Subscribe<object, string>(this, App.MessageReceived, (sender, msg) =>
+            {
+                NotificationMessage = msg;
             });
         }
 
@@ -25,11 +28,11 @@ namespace XamarinForms1.ViewModels
             set => SetProperty(ref _deviceToken, value);
         }
 
-        public ICommand UpdateDeviceTokenCommand { get; set; }
-
-        private void UpdateDeviceTokenCommandAction(string deviceToken)
+        private string _notificationMessage;
+        public string NotificationMessage
         {
-            DeviceToken = $"Device Token: {deviceToken}";
+            get => _notificationMessage;
+            set => SetProperty(ref _notificationMessage, value);
         }
     }
 }
