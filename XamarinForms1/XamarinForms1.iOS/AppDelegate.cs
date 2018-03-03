@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Foundation;
+using Microsoft.WindowsAzure.MobileServices;
+using Newtonsoft.Json.Linq;
 using Plugin.Settings;
 using UIKit;
 using UserNotifications;
@@ -12,7 +14,9 @@ namespace XamarinForms1.iOS
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
     [Register("AppDelegate")]
-    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+    // ReSharper disable once PartialTypeWithSinglePart
+    // ReSharper disable once UnusedMember.Global
+    public partial class AppDelegate : Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
@@ -28,7 +32,7 @@ namespace XamarinForms1.iOS
                 await RequestPushNotificationAuthorizationFromUser();
             });
             
-            global::Xamarin.Forms.Forms.Init();
+            Forms.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
@@ -111,8 +115,21 @@ namespace XamarinForms1.iOS
 
         private async Task SendRegistrationTokenToServer(NSData deviceToken)
         {
-            // Todo: Sent token to backend
-            await Task.Delay(100).ConfigureAwait(false);
+            const string templateBodyApns = "{\"aps\":{\"alert\":\"$(messageParam)\"}}";
+
+            var templates = new JObject
+            {
+                ["genericMessage"] = new JObject
+                {
+                    {"body", templateBodyApns}
+                }
+            };
+
+            var client = new MobileServiceClient(App.MobileServiceUrl);
+            var push = client.GetPush();
+            
+            await push.RegisterAsync(deviceToken, templates).ConfigureAwait(false);
+            CrossSettings.Current.AddOrUpdateValue("InstallationId", push.InstallationId);
         }
     }
 }
