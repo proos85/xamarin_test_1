@@ -11,6 +11,7 @@ namespace XamarinForms1
 	public partial class App : Application
 	{
 	    public const string NotificationKey = "PNKey";
+	    public const string MobileServiceUrl = "https://xamarinforms1backend.azurewebsites.net";
 
 		public App ()
 		{
