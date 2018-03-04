@@ -113,9 +113,6 @@ namespace XamarinForms1.iOS
             NSDictionary userInfo, 
             Action<UIBackgroundFetchResult> completionHandler)
         {
-            var currentBadgeNumber = UIApplication.SharedApplication.ApplicationIconBadgeNumber;
-            UIApplication.SharedApplication.ApplicationIconBadgeNumber = currentBadgeNumber + 1;
-
             PresentNotification(userInfo);
 
             completionHandler(UIBackgroundFetchResult.NoData);

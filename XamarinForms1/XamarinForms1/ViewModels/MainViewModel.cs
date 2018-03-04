@@ -1,4 +1,6 @@
-﻿using Plugin.Settings;
+﻿using System.Threading.Tasks;
+using System.Windows.Input;
+using Plugin.Settings;
 using Xamarin.Forms;
 
 namespace XamarinForms1.ViewModels
@@ -19,6 +21,8 @@ namespace XamarinForms1.ViewModels
             {
                 NotificationMessage = msg;
             });
+
+            SentMessageCommand = new Command(SentMessageCommandAction);
         }
 
         private string _deviceToken;
@@ -33,6 +37,24 @@ namespace XamarinForms1.ViewModels
         {
             get => _notificationMessage;
             set => SetProperty(ref _notificationMessage, value);
+        }
+
+        private string _sentMessage;
+        public string SentMessage
+        {
+            get => _sentMessage;
+            set => SetProperty(ref _sentMessage, value);
+        }
+
+        public ICommand SentMessageCommand { get; set; }
+
+        public void SentMessageCommandAction()
+        {
+            Task.Run(async () =>
+            {
+                await Task.Delay(500);
+                SentMessage = string.Empty;
+            });
         }
     }
 }

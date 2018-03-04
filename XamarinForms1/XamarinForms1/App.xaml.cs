@@ -1,14 +1,14 @@
 ﻿using XamarinForms1.Views;
 using Xamarin.Forms;
-
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Microsoft.AppCenter.Push;
 using XamarinForms1.ViewModels;
 
 namespace XamarinForms1
 {
-	public partial class App : Application
+	public partial class App
 	{
 	    public const string NotificationKey = "PNKey";
 	    public const string MessageReceived = "MessageReceived";
@@ -26,8 +26,8 @@ namespace XamarinForms1
 		protected override void OnStart ()
 		{
             // Handle when your app starts
-		    AppCenter.Start("ios=86f978f4-e62a-4445-9571-2f2b7617975d;", typeof(Analytics), typeof(Crashes));
-		}
+		    AppCenter.Start("ios=86f978f4-e62a-4445-9571-2f2b7617975d;", typeof(Analytics), typeof(Crashes), typeof(Push));
+        }
 
 		protected override void OnSleep ()
 		{

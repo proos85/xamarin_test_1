@@ -17,5 +17,11 @@ namespace XamarinForms1.Views
 
 		    BindingContext = viewModel;
 		}
+
+	    protected override async void OnAppearing()
+	    {
+	        base.OnAppearing();
+	        await DisplayAlert("Hoi", "Hoi", "OK");
+	    }
 	}
 }
