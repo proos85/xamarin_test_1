@@ -10,7 +10,7 @@ namespace XamarinForms1.ViewModels
     {
         public MainViewModel()
         {
-            DeviceToken = CrossSettings.Current.GetValueOrDefault("DeviceToken", string.Empty);
+            DeviceToken = $"Device token: '{CrossSettings.Current.GetValueOrDefault("DeviceToken", string.Empty)}'";
 
             MessagingCenter.Subscribe<object, string>(this, App.NotificationKey, (sender, deviceToken) =>
             {

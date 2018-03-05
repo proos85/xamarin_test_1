@@ -1,4 +1,5 @@
-﻿using Plugin.Settings;
+﻿using System;
+using Plugin.Settings;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using XamarinForms1.ViewModels;
@@ -18,10 +19,9 @@ namespace XamarinForms1.Views
 		    BindingContext = viewModel;
 		}
 
-	    protected override async void OnAppearing()
+	    private async void Button_OnClicked(object sender, EventArgs e)
 	    {
-	        base.OnAppearing();
-	        await DisplayAlert("Hoi", "Hoi", "OK");
+	        await DisplayAlert("OK", "OK", "OK");
 	    }
 	}
 }

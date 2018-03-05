@@ -39,6 +39,13 @@ namespace XamarinForms1.iOS
 
             _launchOptions = options;
 
+            var currentBadgeNumber = UIApplication.SharedApplication.ApplicationIconBadgeNumber;
+            if (currentBadgeNumber > 0)
+            {
+                currentBadgeNumber = currentBadgeNumber - 1;
+                UIApplication.SharedApplication.ApplicationIconBadgeNumber = currentBadgeNumber;
+            }
+
             return base.FinishedLaunching(app, options);
         }
 
