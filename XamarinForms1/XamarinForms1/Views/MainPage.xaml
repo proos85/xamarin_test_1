@@ -1,22 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Padding="0,20,0,0"
             x:Class="XamarinForms1.Views.MainPage">
  
-    <Grid>
+    <Grid ColumnSpacing="0" RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         
-        <StackLayout BackgroundColor="Red">
-            <Label Text="{Binding DeviceToken, Mode=OneWay}" VerticalOptions="Center" />
-            <Label Text="{Binding NotificationMessage, Mode=OneWay}" HorizontalOptions="Center" VerticalOptions="Center" />
+        <StackLayout VerticalOptions="Center">
+            <Label Text="{Binding DeviceToken, Mode=OneWay}" HorizontalOptions="Center" />
+            <Label Text="{Binding NotificationMessage, Mode=OneWay}" HorizontalOptions="Center" />
         </StackLayout>
         
         <StackLayout Grid.Row="1" Orientation="Horizontal">
-            <Entry Placeholder="Message" PlaceholderColor="Gray" HorizontalOptions="FillAndExpand" Text="{Binding SentMessage, Mode=TwoWay}" />
-            <Button HorizontalOptions="End" Text="Sent message" Clicked="Button_OnClicked" />
+            <Entry x:Name="newNotificationMessageEntry"
+                   HeightRequest="40" 
+                   VerticalOptions="Center"
+                   Placeholder="Message" 
+                   PlaceholderColor="Gray" 
+                   HorizontalOptions="FillAndExpand" 
+                   Text="{Binding SentMessage, Mode=TwoWay}" 
+                   Margin="5,0,5,0" />
+            <Button HorizontalOptions="End" 
+                    HeightRequest="40"
+                    VerticalOptions="Center"
+                    Text="Sent message" 
+                    Clicked="Button_OnClicked" 
+                    Margin="0,0,5,0" />
         </StackLayout>
     </Grid>
 
